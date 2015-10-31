@@ -4,4 +4,7 @@
 (function(window.lib){
    lib.env = lib.env || {};
    
+   var ua = window.navigitor.userAgent;
+   var matched;
+   
 }(window,lib||{}))
