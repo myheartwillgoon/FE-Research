@@ -1,10 +1,9 @@
 // base on https://github.com/carhartl/jquery-cookie/blob/master/src/jquery.cookie.js
-// need jQuery $.extend
-$.cookie  = function(key, value, options) {
+lib.cookie  = function(key, value, options) {
     var cookie, cookies, len, name, result = false
 
     if (arguments.length > 1) {
-        options = $.extend({},options)
+        options = options || {}
 
         if (typeof options.expires === 'number') {
             var hours = options.expires,
@@ -39,7 +38,9 @@ $.cookie  = function(key, value, options) {
     }
 }
 
-$.removeCookie = function(key, options) {
-    $.cookie(key, '', $.extend({},options,{expires:-1}))
+lib.removeCookie = function(key, options) {
+    options = options || {}
+    options.expires = -1
+    lib.cookie(key, '', options)
     return !$.cookie(key)
 }
