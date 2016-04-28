@@ -42,5 +42,5 @@ lib.removeCookie = function(key, options) {
     options = options || {}
     options.expires = -1
     lib.cookie(key, '', options)
-    return !$.cookie(key)
+    return !lib.cookie(key)
 }
