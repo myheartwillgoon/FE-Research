@@ -1,10 +1,22 @@
 // 随机化/混排数组
-Array.prototype.shuffle = function(){
-  return this.sort(function(a,b){
+export function shuffle(arr) {
+  return arr.sort(function(a,b){
     return Math.random() > 0.5 ? 1:-1
   })
 }
-// 获取指定位数的,可以随机整个数组后,再slice指定数.
-Array.prototype.shuffle = function(){
-  
+
+export function uniqeByKey(arr, key) {
+    arr = arr.concat(arr);
+    if (Array.isArray(arr) && arr.length > 1) {
+        const keys = arr.map(item => item[key]);
+        let pos, i = 0;
+        keys.forEach((item, index)=> {
+            pos = keys.indexOf(item, index+1)
+            if (pos > 0) {
+                arr.splice(pos - i, 1);
+                ++i;
+            }
+        })
+    } 
+    return arr;
 }
