@@ -6,15 +6,16 @@ export function shuffle(arr) {
 }
 
 export function uniqeByKey(arr, key) {
-    arr = arr.concat(arr);
+    // arr = arr.concat(arr);
     if (Array.isArray(arr) && arr.length > 1) {
         const keys = arr.map(item => item[key]);
         let pos, i = 0;
         keys.forEach((item, index)=> {
             pos = keys.indexOf(item, index+1)
-            if (pos > 0) {
+            while (pos > 0) {
                 arr.splice(pos - i, 1);
                 ++i;
+                pos = keys.indexOf(item, pos+1);
             }
         })
     } 
