@@ -44,3 +44,11 @@ lib.removeCookie = function(key, options) {
     lib.cookie(key, '', options)
     return !lib.cookie(key)
 }
+
+/* read cookie
+    var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+    return (match ? decodeURIComponent(match[3]) : null);
+
+    notice 
+    ;\s (config also
+*/
