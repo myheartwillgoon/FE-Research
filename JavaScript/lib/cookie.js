@@ -1,4 +1,17 @@
 // base on https://github.com/carhartl/jquery-cookie/blob/master/src/jquery.cookie.js
+const cookie = {
+    set() {
+
+    },
+    get() {
+
+    },
+    remove() {
+
+    },
+}
+
+export default cookie;
 lib.cookie  = function(key, value, options) {
     var cookie, cookies, len, name, result = false
 

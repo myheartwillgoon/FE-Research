@@ -11,7 +11,7 @@ function ajax(method, url, params, resolve, reject) {
         } else {
             reject(rs.data.msg, rs.data.code, rs.data);
         }
-    }).catch(err => reject(err || '服务错误,请稍后再试', 999));
+    }).catch(err => reject('服务错误,请稍后再试', 999, err)); //err.message
 }
 
 const http = {
