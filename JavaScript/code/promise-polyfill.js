@@ -1,4 +1,7 @@
-// https://github.com/taylorhakes/promise-polyfill/blob/master/dist/polyfill.js
+// https://github.com/taylorhakes/promise-polyfill v8.1.0
+// new Promise -> doResolve -> resolve | reject -> finale
+//                                |
+//                             if val if promise handler -> handle -> resolve | reject
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
@@ -6,10 +9,8 @@
 	(factory());
 }(this, (function () { 'use strict';
 
-/**
- * @this {Promise}
- * Promise finally兼容,callback没有传参值,返回原Promise和值.
- */
+// Promise finally兼容,callback没有传参值,返回原Promise和值.
+ 
 function finallyConstructor(callback) {
   var constructor = this.constructor;
   return this.then(
@@ -26,8 +27,6 @@ function finallyConstructor(callback) {
   );
 }
 
-// Store setTimeout reference so promise-polyfill will be unaffected by
-// other code modifying setTimeout (like sinon.useFakeTimers())
 var setTimeoutFunc = setTimeout;
 
 function noop() {}
@@ -38,22 +37,18 @@ function bind(fn, thisArg) {
     fn.apply(thisArg, arguments);
   };
 }
-
-/**
- * @constructor
- * @param {Function} fn
- */
+// 只能new 不能call且fn 为函数
 function Promise(fn) {
   if (!(this instanceof Promise))
     throw new TypeError('Promises must be constructed via new');
   if (typeof fn !== 'function') throw new TypeError('not a function');
-  /** @type {!number} */
+  // 0 pending, 1 resolve, 2 reject, 3 return a promise
   this._state = 0;
-  /** @type {!boolean} */
+  // 状态是否已完成转变
   this._handled = false;
-  /** @type {Promise|undefined} */
+  // resolve value or reject reason 
   this._value = undefined;
-  /** @type {!Array<!Function>} */
+  // handlers list, item like promise
   this._deferreds = [];
 
   doResolve(fn, this);
@@ -120,7 +115,7 @@ function reject(self, newValue) {
 }
 
 function finale(self) {
-  if (self._state === 2 && self._deferreds.length === 0) {
+  if (self._state === 2 && self._deferreds.length === 0) { // promise status to 2, if no reject fn,then throw error.
     Promise._immediateFn(function() {
       if (!self._handled) {
         Promise._unhandledRejectionFn(self._value);
@@ -134,21 +129,14 @@ function finale(self) {
   self._deferreds = null;
 }
 
-/**
- * @constructor
- */
+// this._deferreds item
 function Handler(onFulfilled, onRejected, promise) {
   this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
   this.onRejected = typeof onRejected === 'function' ? onRejected : null;
   this.promise = promise;
 }
 
-/**
- * Take a potentially misbehaving resolver function and make sure
- * onFulfilled and onRejected are only called once.
- *
- * Makes no guarantees about asynchrony.
- */
+// Promise fn execute
 function doResolve(fn, self) {
   var done = false;
   try {
@@ -170,13 +158,12 @@ function doResolve(fn, self) {
     reject(self, ex);
   }
 }
-
+// catch finally都是关键字,在IE低版本会出现解析错误
 Promise.prototype['catch'] = function(onRejected) {
   return this.then(null, onRejected);
 };
 
 Promise.prototype.then = function(onFulfilled, onRejected) {
-  // @ts-ignore
   var prom = new this.constructor(noop);
 
   handle(this, new Handler(onFulfilled, onRejected, prom));
@@ -263,18 +250,17 @@ Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
   }
 };
 
-/** @suppress {undefinedVars} */
 var globalNS = (function() {
   // the only reliable means to get the global object is
   // `Function('return this')()`
   // However, this causes CSP violations in Chrome apps.
-  if (typeof self !== 'undefined') {
+  if (typeof self !== 'undefined') {    // web worker?
     return self;
   }
   if (typeof window !== 'undefined') {
     return window;
   }
-  if (typeof global !== 'undefined') {
+  if (typeof global !== 'undefined') {  // node.js
     return global;
   }
   throw new Error('unable to locate global object');
