@@ -7,5 +7,12 @@
 ### DOM
 * 滚动加载判断,Mac chrome 是documentElement.scrollTop, webview是document.body.scrollTop
 
+### Event
+* 用zepto的on代理绑定非a标签的click事件,在IOS上不起作用
+
 ### webview
 * 一个webview打开另一个webview, sessionStorage是不能读取的.localStorage则可以.
+
+## 兼容性
+* IE8及其以下不支持console.log
+* IE10 不支持console.log.apply方法
