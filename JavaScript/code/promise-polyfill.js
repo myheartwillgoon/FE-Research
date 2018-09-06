@@ -277,5 +277,5 @@ if (!('Promise' in globalNS)) {
 * resolve,reject只返回一个值,传递至后续调用
 * IE setImmediate优化
 * finally callback无返回值做后续参数调用,其返回原promise且传递值
-* no reject callback,while throw error
+* no reject callback,throw console.warn
 */
