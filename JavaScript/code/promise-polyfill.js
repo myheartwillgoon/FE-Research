@@ -1,8 +1,16 @@
 // https://github.com/taylorhakes/promise-polyfill v8.1.0
 // new Promise -> doResolve -> resolve | reject -> finale
 //                                |
-//                             if val if promise handler -> handle -> resolve | reject
-
+//                             if val is promise, handler -> handle -> resolve | reject
+/*
+ 使用方式
+ Promise.resolve(fn | promise).then()
+ Promise.reject().then()
+ Promise.all([...]).then()
+ Promise.race([...]).then()
+ new Promise(fn).then().catch().finally()
+ resolve return value, reject return error/reason
+*/
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
