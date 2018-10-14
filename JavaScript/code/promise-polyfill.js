@@ -73,6 +73,7 @@ function handle(self, deferred) {
   self._handled = true;
   Promise._immediateFn(function() {
     var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+    // 如果then/catch 为非函数值,则返回原promise值
     if (cb === null) {
       (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
       return;
@@ -137,14 +138,14 @@ function finale(self) {
   self._deferreds = null;
 }
 
-// this._deferreds item
+// 参数非函数,则转换为null,后面返回原promise
 function Handler(onFulfilled, onRejected, promise) {
   this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
   this.onRejected = typeof onRejected === 'function' ? onRejected : null;
   this.promise = promise;
 }
 
-// Promise fn execute
+// 只能接收一个参数传值 (value/reason)
 function doResolve(fn, self) {
   var done = false;
   try {
@@ -282,7 +283,7 @@ if (!('Promise' in globalNS)) {
 
 })));
 /*
-* resolve,reject只返回一个值,传递至后续调用
+* resolve,reject只接受一个传值,传递至后续调用
 * IE setImmediate优化
 * finally callback无返回值做后续参数调用,其返回原promise且传递值
 * no reject callback,throw console.warn
