@@ -5,7 +5,7 @@ export const TODAY = getOffsetDayDate();
 
 export const WEEKDAYS = [1, 2, 3, 4, 5, 6, 7];
 
-export function getDateTime(date) {
+export function getDateTime(date = new Date()) {
     let arr = new Array(6);
     arr[0] = date.getFullYear();
     arr[1] = date.getMonth() + 1;
@@ -23,7 +23,7 @@ export function getOffsetDayDate(offset = 0, start = new Date()) {
     return getDateTime(date).slice(0, 10);
 }
 
-export function getOffsetMonthDate(offset) {
+export function getOffsetMonthDate(offset = 0) {
     const date = new Date();
     const month = date.getMonth();
     date.setMonth(month + offset);
