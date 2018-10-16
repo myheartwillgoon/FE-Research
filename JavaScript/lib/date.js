@@ -31,7 +31,7 @@ export function getOffsetMonthDate(offset = 0) {
 }
 
 export function setFormatDate(string) {
-    const args = string.split(/[-|:|\s]/);
+    const args = string.split(/[-:\s]/);
     args[1] -= 1;
     return new Date(...args);
 }
