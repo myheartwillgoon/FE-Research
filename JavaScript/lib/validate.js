@@ -12,22 +12,22 @@ export const MESSAGE = {
 const M = MESSAGE;
 
 const validate = {
-    isMobile(val, message = M.invalidMobile, need = true, msg = M.emptyMobile) {
+    compare(a, b, type, msg) {
         let ret = '';
-        if (need && this.isEmpty(val)) {
-            ret = msg;
-            return ret;
-        }
-        if (!/^1\d{10}$/.test(val)) ret = message;
+        if (type === -1 && a >= b) ret = msg;
+        else if (type === 0 && a != b) ret = msg;
+        else if (type === 1 && a <= b) ret = msg;
+        else if (type === 2 && a == b) ret = msg;
         return ret;
     },
-    isSMSCode(code, message = M.invalidSMSCode, need = true, msg = M.emptySMSCode) {
+    isMobile(val, message = M.invalidMobile) {
         let ret = '';
-        if (need && this.isEmpty(code)) {
-            ret = msg;
-            return ret;
-        }
-        if (!/^\d{6}$/.test(code)) ret = message;
+        if (val && !/^1\d{10}$/.test(val)) ret = message;
+        return ret;
+    },
+    isSMSCode(code, message = M.invalidSMSCode) {
+        let ret = '';
+        if (code && !/^\d{6}$/.test(code)) ret = message;
         return ret;
     },
     isEmpty(val, message = M.notEmpty) {
