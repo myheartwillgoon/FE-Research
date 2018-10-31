@@ -54,12 +54,6 @@ const validate = {
     isNum(val, msg) {
         return !val || /^\d+$/.test(val) ? '' : msg;
     },
-    isTel(val, msg) {
-        return !val || /^[\d-]+$/.test(val) ? '' : msg;
-    },
-    isTaxNum(val, msg) {
-        return !val || /^[0-9A-HJ-NPQRTUWXY]+$/.test(val) ? '' : msg;
-    },
     inRules(val, ...rules) {
         let message = '';
         if (Array.isArray(rules[0])) rules = rules[0];
