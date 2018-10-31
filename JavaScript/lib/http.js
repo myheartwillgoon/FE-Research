@@ -1,12 +1,16 @@
 /* eslint-disable */
 import axios from 'axios';
+// import { addHttpUrlPath } from './url.js';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 6000;
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+axios.defaults.headers.put['Content-Type'] = 'application/json;charset=UTF-8';
 
-function ajax(method, url, params, resolve, reject) {    
-    axios[method](params).then((rs) => {
+function ajax(method, url, params, resolve, reject) {
+    // if (url.indexOf('http') !== 0) url = addHttpUrlPath(url);
+    if (['get', 'delete'].indexOf(method) >= 0) params = { params };
+    axios[method](url, params).then((rs) => {
         if (rs.data && +rs.data.code === 200) {
             resolve(rs.data.data);
         } else {
