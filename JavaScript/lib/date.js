@@ -30,7 +30,7 @@ export function getOffsetMonthDate(offset = 0) {
     return getDateTime(date).slice(0, 10);
 }
 
-export function setFormatDate(string) {
+export function toFormatDate(string) {
     const args = string.split(/[-:\s]/);
     args[1] -= 1;
     return new Date(...args);
