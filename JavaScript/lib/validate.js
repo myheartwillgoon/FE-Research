@@ -30,9 +30,9 @@ const validate = {
         if (!/^\d{6}$/.test(code)) ret = message;
         return ret;
     },
-    isEmpty(string, message = M.notEmpty) {
+    isEmpty(val, message = M.notEmpty) {
         let ret = '';
-        if (!string || (string&&!string.trim())) ret = message;
+        if (!val || (val && !val.trim())) ret = message;
         return ret;
     },
     hasEmoji(val, message = M.illegalString) {
@@ -49,13 +49,16 @@ const validate = {
         return ret; 
     },
     isName(val, msg) {
-        return /^[a-zA-Z\.\u4e00-\u9fa5]+$/.test(val) ? '' : msg;
+        return !val || /^[·a-zA-Z\.\u4e00-\u9fa5]+$/.test(val) ? '' : msg;
     },
     isNum(val, msg) {
-        return /^\d+$/.test(val) ? '' : msg;
+        return !val || /^\d+$/.test(val) ? '' : msg;
+    },
+    isTel(val, msg) {
+        return !val || /^[\d-]+$/.test(val) ? '' : msg;
     },
     isTaxNum(val, msg) {
-        return /^[0-9A-HJ-NPQRTUWXY]+$/.test(val) ? '' : msg;
+        return !val || /^[0-9A-HJ-NPQRTUWXY]+$/.test(val) ? '' : msg;
     },
     inRules(val, ...rules) {
         let message = '';
@@ -92,20 +95,20 @@ export class Validator {
         }
     }
     validate(allMessage = false, vm = null, keys = null) {
-        let ret;
+        let ret = [];
         this.list.every(item => {
             const [val, rules] = item;
             let message = '';
             message = typeof rules === 'string' && rules.indexOf(':') === -1 ? validate[rules](val) : validate.inRules(val, rules);
-            ret = allMessage ? (ret || []).push(message) : message;
+            allMessage ? ret.push(message) : (ret = message);
             return allMessage ? true : !message;
         })
         if (allMessage && vm && keys) {
             keys.forEach((item, i) => {
-                vm[item].message = ret[i];
+                vm[item] = ret[i];
             })
         }
-        if (allMessage && !ret.every(item => item)) ret = false;
+        if (allMessage && ret.every(item => !item)) ret = false;
         return ret;
     }
 }
