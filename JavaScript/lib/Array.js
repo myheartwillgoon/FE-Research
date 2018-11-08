@@ -21,3 +21,8 @@ export function uniqeByKey(arr, key) {
     } 
     return arr;
 }
+
+export function removeItem(arr, item) {
+  let pos = arr.indexOf(item);
+  if (!~pos) arr.splice(pos, 1);
+}
