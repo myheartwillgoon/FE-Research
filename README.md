@@ -1,11 +1,34 @@
 # FEDev
 前端开发技术分享与总结
 
-### 注意点
-* [HTML注意点] (./HTML/HTML注意点.md)
-* [CSS注意点] (./CSS/CSS注意点.md)
-* [JavaScript注意点](./JavaScript/JavaScript注意点.md)
+## GitHub gist推荐
+### CSS
+#### animate
+* https://github.com/daneden/animate.css
+#### lib
+* https://github.com/pure-css/pure
 
-### 代码分析
-* [sea.js?v=2.2.1](./JavaScript/code/sea.js)
-* [promise-polyfill.js?v=8.1.0](./JavaScript/code/promise-polyfill.js)
+### JavaScript
+#### components
+* https://github.com/developit/preact
+
+#### promise
+* https://github.com/taylorhakes/promise-polyfill
+* https://github.com/stefanpenner/es6-promise
+
+#### XHR
+* https://github.com/axios/axios
+* https://github.com/github/fetch
+
+#### tools
+* https://github.com/lodash/lodash
+* https://github.com/jashkenas/underscore
+
+#### slide
+* https://github.com/yanhaijing/zepto.fullpage
+
+#### visualization
+* https://github.com/d3/d3
+
+### code style
+* https://github.com/airbnb/javascript
