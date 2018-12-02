@@ -23,9 +23,12 @@ export function getOffsetDayDate(offset = 0, start = new Date()) {
     return getDateTime(date).slice(0, 10);
 }
 
-export function getOffsetMonthDate(offset = 0) {
-    const date = new Date();
+export function getOffsetMonthDate(offset, date = new Date()) {
+    const year = date.getFullYear();
     const month = date.getMonth();
+    const day = date.getDate();
+    const monthLastDay = new Date(new Date(year, month + offset + 1, 1, 12, 10, 10) - ONE_DAY).getDate();
+    if (day > monthLastDay) date.setDate(monthLastDay);
     date.setMonth(month + offset);
     return getDateTime(date).slice(0, 10);
 }
