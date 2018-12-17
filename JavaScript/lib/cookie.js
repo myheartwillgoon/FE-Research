@@ -1,62 +1,41 @@
 // base on https://github.com/carhartl/jquery-cookie/blob/master/src/jquery.cookie.js
 const cookie = {
-    set() {
-
+    set(name, value, config) {
+        const options = config || {};
+        if (typeof options.expires === 'number') {
+            let hours = options.expires;
+            let t = options.expires = new Date();
+            t.setMilliseconds(t.getMilliseconds() + hours * 3.6e5);
+        }
+        return (document.cookie = [
+            name, '=', value,
+            options.expires ? `; expires=${options.expires.toUTCString()}` : '',
+            options.path ? `; peth=${options.path}` : '',
+            options.domain ? `; domian=${options.domain}` : '',
+            options.secure ? `; scure` : ''
+        ].join(''))
     },
-    get() {
-
+    get(name) {
+        const cookies = document.cookie ? document.cookie.split('; ') : [];
+        const len = cookies.length;
+        let ret = name ? '' : Object.create(null);
+        for (let i = 0; i < len; i++) {
+            const [key, value] = cookies.split('=');
+            if (key === name) {
+                ret = value;
+                break;
+            }
+            if (!name) ret[key] = value;
+        }
+        return ret;
     },
-    remove() {
-
+    remove(name) {
+        this.set(name, '', { expires: -1 });
+        return !this.get(name);
     },
 }
 
 export default cookie;
-lib.cookie  = function(key, value, options) {
-    var cookie, cookies, len, name, result = false
-
-    if (arguments.length > 1) {
-        options = options || {}
-
-        if (typeof options.expires === 'number') {
-            var hours = options.expires,
-                t     = options.expires = new Date()
-
-            t.setMilliseconds(t.getMilliseconds()+1000*60*60*hours)
-        }
-
-            return (document.cookie = [
-                    key,'=',value,
-                    options.expires ? '; expires=' + options.expires.toUTCString() : '',
-                    options.path ? '; path=' + options.path : '',
-                    options.domain ? '; domain=' + options.domain : '',
-                    options.secure ? '; secure' : ''
-                   ].join(''))
-
-    } else {
-        if (!key) return false
-        cookies = document.cookie ? document.cookie.split('; ') : []
-        len = cookies.length
-
-        for (var i = 0; i < len; i++) {
-            cookie = cookies[i].split('=');
-            name = cookie.shift()
-
-            if (name === key) {
-                result = cookie.join('')
-                break;
-            }
-        }
-        return result
-    }
-}
-
-lib.removeCookie = function(key, options) {
-    options = options || {}
-    options.expires = -1
-    lib.cookie(key, '', options)
-    return !lib.cookie(key)
-}
 
 /* read cookie
     var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
