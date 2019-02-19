@@ -10,9 +10,9 @@ const cookie = {
         return (document.cookie = [
             name, '=', value,
             options.expires ? `; expires=${options.expires.toUTCString()}` : '',
-            options.path ? `; peth=${options.path}` : '',
-            options.domain ? `; domian=${options.domain}` : '',
-            options.secure ? `; scure` : ''
+            options.path ? `; path=${options.path}` : '',
+            options.domain ? `; domain=${options.domain}` : '',
+            options.secure ? `; secure` : ''
         ].join(''))
     },
     get(name) {
